@@ -38,14 +38,14 @@ WRONG
 
 2) Named parameters
 Sequence is not necessary, the server will sorting params if these exits **case sensitive**
-
+···
     $response = $client->call(new RpcRequest('add',array('bValue'=>$b,'aValue'=>$a)));
-
+···
 3) Notification
-
+···
     $response = $client->call(new RpcRequest('deleteAndUpdtae',array(2),true));
     $response = $client->call(new RpcRequest('update',null,true));
-
+···
 
 ### Working with the response
 _Please note that the client side deliberately less implemented, so you can freely manage the response, for example, wrapping the reponse object in `JsonRpcClient` and when you got an unexpected answer, throw an exception etc._
