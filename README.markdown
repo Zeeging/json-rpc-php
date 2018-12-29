@@ -1,20 +1,20 @@
 [﻿JSON-RPC 2.0](http://www.jsonrpc.org/spec.html) Client/Server library for PHP
-###Requirements
+### Requirements
 PHP 5.2.6+
 
-###Used predefined classes and interfaces
+### Used predefined classes and interfaces
  - [ReflectionClass](http://www.php.net/manual/en/class.reflectionclass.php) @ `lib/server/Service`
  - [ReflectionMethod](http://www.php.net/manual/en/class.reflectionmethod.php) @ `lib/server/Service`
  - [Exception](http://www.php.net/manual/en/class.exception.php) @ `lib/server/JsonRpcExceptions`
 
-#How do I use the client?
+# How do I use the client?
 After you instantiate the `JsonRpcClient` with the server URL, there have two option to send a request. Both method using the `RpcRequest` class @ `lib/client/` which help us to sending a well formatted request. Step by step tuturial soon.
-##Single request
-###Sending a request
+## Single request
+### Sending a request
 So, triggering a single request after `$client = new JsonRpcClient('http://serverurl');` you can use one of the following methods:
 
 
-####__call() magic method(recommended)
+#### __call() magic method(recommended)
 Parameters sequence must represent the same as server implementation and notification not allowed
 
     $response = $client->add($a,$b);
@@ -23,7 +23,7 @@ Is equal with
 
     $response = $client->{'add'}($a,$b);
 
-####RpcRequest
+#### RpcRequest
 1) Sorted parameters
 
 RIGHT
@@ -47,7 +47,7 @@ Sequence is not necessary, the server will sorting params if these exits **case 
     $response = $client->call(new RpcRequest('update',null,true));
 
 
-###Working with the response
+### Working with the response
 _Please note that the client side deliberately less implemented, so you can freely manage the response, for example, wrapping the reponse object in `JsonRpcClient` and when you got an unexpected answer, throw an exception etc._
 
 If the request is not a notification, and the process was successful, the `$response` will be an object which contain `id`,`jsonrpc` and `result` fields, otherwise the result object will contain `error` instead of `result`. The `error` object has three members, `message`,`code` and `data` which is optional. So in `$response = $client->add($a,$b);` case `var_dump($response)` will look like this if `$a` 10 `$b` 20 :
@@ -77,8 +77,8 @@ And if we call accidentally `addd` instead of `add` :
       int(1)
     }
 
-##Batch request
-###Sending a request
+## Batch request
+### Sending a request
 You can send more than one request at the same time. In this case you must use an array util to collect RpcRequest objects and passing into `callBatch` method
 
 1) No one
@@ -116,7 +116,7 @@ You can send more than one request at the same time. In this case you must use a
 
     $responseArray = $client->callBatch($listOfCalls);
 
-###Accepting the response
+### Accepting the response
 Only difference between the Single request that the callBatch will return an array of response objects so `$responseArray` look like this in case of 1)
 
     array(3) {
@@ -174,9 +174,9 @@ case of 2)
 
 and finally case of 3) the `$responseArray` will contain nothing so `NULL`
 
-#How do I use the server?
+# How do I use the server?
 You can reach the full sample application source @ `sample` directory. _Step by step tuturial soon._
-##Implementing service
+## Implementing service
 First of all, your service implementation must inherited from `Service` **This is necessary for all service**, because the `JsonRpcServer` will work with `Service` methods to detect callable methods and their parameters with [PHP reflection](http://php.net/manual/en/book.reflection.php) 
     The client only can reach that method which has a block comment exactly with this content :
 
